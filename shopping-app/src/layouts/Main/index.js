@@ -5,44 +5,47 @@
  * @author wandouni (2539419557@qq.com)
  *
  * Created at     : 2019-03-21 22:07:59
- * Last modified  : 2019-03-21 23:13:11
+ * Last modified  : 2019-03-22 22:51:28
  */
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Layout, Menu, Breadcrumb, Icon } from "antd";
+import { Layout } from "antd";
 import Head from "../Header";
 import Nav from "../Nav";
 import Bread from "../Bread";
 import Container from "../Container";
-const { SubMenu } = Menu;
+
 const { Header, Content, Sider } = Layout;
 
 export class Main extends Component {
+  state={
+    collapsed:true
+  }
+  
   render() {
+    const {collapsed}=this.state
     return (
       <div className="-l-Main">
         <Layout>
-          <Header className="header">
-            <Head />
-          </Header>
+          <Sider trigger={null} collapsible collapsed={collapsed}>
+            <Nav />
+          </Sider>
           <Layout>
-            <Sider width={200} style={{ background: "#fff" }}>
-              <Nav />
-            </Sider>
-            <Layout style={{ padding: "0 24px 24px" }}>
-              <Bread />
-              <Content
-                style={{
-                  background: "#fff",
-                  padding: 24,
-                  margin: 0,
-                  minHeight: 280
-                }}
-              >
-                <Container />
-              </Content>
-            </Layout>
+            <Header style={{ background: "#fff", padding: 0 }}>
+              <Head />
+            </Header>
+            <Bread />
+            <Content
+              style={{
+                margin: "24px 16px",
+                padding: 24,
+                background: "#fff",
+                minHeight: 280
+              }}
+            >
+             <Container />
+            </Content>
           </Layout>
         </Layout>
       </div>
