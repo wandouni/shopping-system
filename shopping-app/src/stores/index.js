@@ -5,17 +5,17 @@
  * @author wandouni (2539419557@qq.com)
  *
  * Created at     : 2019-03-21 22:01:15
- * Last modified  : 2019-03-22 23:58:19
+ * Last modified  : 2019-03-23 11:02:00
  */
 
-import { applyMiddleware, combineReducers, createStore } from "redux";
+import { applyMiddleware, combineReducers, createStore, compose } from "redux";
 import createSagaMiddleware from "redux-saga";
 // import { fork } from 'redux-saga/effects'
 
 const reducer = combineReducers({
   'test': (state = 1, action) => {
     return state
-   }
+  }
 })
 
 const sagaMiddleware = createSagaMiddleware();
@@ -24,12 +24,21 @@ const rootSaga = function* () {
   yield []
 }
 
+const composeEnhancers =
+  typeof window === 'object' &&
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+      // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
+    }) : compose;
+
+const enhancer = composeEnhancers(
+  applyMiddleware(sagaMiddleware),
+  // other store enhancers if any
+);
+
 const store = createStore(
   reducer,
-  process.env.NODE_ENV === "development" &&
-  window.__REDUX_DEVTOOLS_EXTENSION__ &&
-  window.__REDUX_DEVTOOLS_EXTENSION__(),
-  applyMiddleware(sagaMiddleware)
+  enhancer
 );
 sagaMiddleware.run(rootSaga);
-export default store;
+export default store

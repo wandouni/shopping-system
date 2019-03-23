@@ -5,7 +5,7 @@
  * @author wandouni (2539419557@qq.com)
  *
  * Created at     : 2019-03-21 22:07:59
- * Last modified  : 2019-03-22 22:51:28
+ * Last modified  : 2019-03-23 14:08:03
  */
 
 import React, { Component } from "react";
@@ -15,36 +15,29 @@ import Head from "../Header";
 import Nav from "../Nav";
 import Bread from "../Bread";
 import Container from "../Container";
+import { Route } from "react-router-dom";
 
-const { Header, Content, Sider } = Layout;
+const { Header, Content } = Layout;
 
 export class Main extends Component {
-  state={
-    collapsed:true
+  constructor(props) {
+    super(props)
+    this.state = {
+    }
   }
-  
+
   render() {
-    const {collapsed}=this.state
     return (
       <div className="-l-Main">
         <Layout>
-          <Sider trigger={null} collapsible collapsed={collapsed}>
-            <Nav />
-          </Sider>
+          <Route path='*' component={(props) => <Nav {...props} />} />
           <Layout>
             <Header style={{ background: "#fff", padding: 0 }}>
               <Head />
             </Header>
-            <Bread />
-            <Content
-              style={{
-                margin: "24px 16px",
-                padding: 24,
-                background: "#fff",
-                minHeight: 280
-              }}
-            >
-             <Container />
+            <Route path='*' component={(props) => <Bread {...props} />} />
+            <Content>
+              <Route path='*' component={(props) => <Container {...props} />} />
             </Content>
           </Layout>
         </Layout>
@@ -53,6 +46,8 @@ export class Main extends Component {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => {
+  return ({})
+};
 
 export default connect(mapStateToProps)(Main);
